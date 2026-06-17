@@ -67,4 +67,6 @@ class SiteSettingResource extends Resource
             'edit'   => Pages\EditSiteSetting::route('/{record}/edit'),
         ];
     }
+
+    protected static bool $shouldRegisterNavigation = false;
 }

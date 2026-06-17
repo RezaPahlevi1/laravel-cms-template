@@ -5,6 +5,8 @@
     $settings     — array ['site_name' => ..., 'logo_path' => ..., 'logo_mode' => ...]
 --}}
 
+@use('Illuminate\Support\Facades\Storage')
+
 <header
     x-data="navbar()"
     x-init="init()"
@@ -20,7 +22,7 @@
             <a href="/" class="flex items-center gap-3 shrink-0">
                 @if(($settings['logo_mode'] ?? 'text') === 'image' && !empty($settings['logo_path']))
                     <img
-                        src="{{ asset($settings['logo_path']) }}"
+                        src="{{ $settings['logo_path'] ? Storage::url($settings['logo_path']) : '' }}"
                         alt="{{ $settings['site_name'] ?? config('app.name') }}"
                         class="h-9 w-auto object-contain"
                     >
