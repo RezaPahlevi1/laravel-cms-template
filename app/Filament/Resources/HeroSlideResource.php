@@ -37,6 +37,8 @@ class HeroSlideResource extends Resource
                 FileUpload::make('image_path')
                     ->label('Background Image')
                     ->image()
+                    ->disk('public')
+                    ->visibility('public')
                     ->directory('hero-slides')
                     ->required()
                     ->columnSpanFull(),
@@ -91,6 +93,7 @@ class HeroSlideResource extends Resource
         return $table->columns([
             ImageColumn::make('image_path')
                 ->label('Image')
+                ->disk('public')
                 ->height(60),
 
             TextColumn::make('title')

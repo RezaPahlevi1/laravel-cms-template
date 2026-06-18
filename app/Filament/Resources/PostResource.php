@@ -75,6 +75,8 @@ class PostResource extends Resource
                 FileUpload::make('thumbnail_path')
                     ->label('Thumbnail Image')
                     ->image()
+                    ->disk('public')
+                    ->visibility('public')
                     ->directory('post-thumbnails')
                     ->nullable()
                     ->columnSpanFull(),
@@ -115,6 +117,7 @@ class PostResource extends Resource
         return $table->columns([
             ImageColumn::make('thumbnail_path')
                 ->label('Thumbnail')
+                ->disk('public')
                 ->height(50),
 
             TextColumn::make('title')

@@ -79,6 +79,8 @@ class PageResource extends Resource
                 FileUpload::make('hero_image_path')
                     ->label('Hero Image')
                     ->image()
+                    ->disk('public')
+                    ->visibility('public')
                     ->directory('hero-images')
                     ->nullable()
                     ->columnSpanFull(),
@@ -119,58 +121,58 @@ class PageResource extends Resource
                         return $indent . $state;
                     }),
 
-            TextColumn::make('full_path')
-                ->label('URL Path')
-                ->fontFamily('mono')
-                ->searchable(),
+                TextColumn::make('full_path')
+                    ->label('URL Path')
+                    ->fontFamily('mono')
+                    ->searchable(),
 
-            TextColumn::make('depth')
-                ->label('Level')
-                ->formatStateUsing(fn ($state) => match ((int) $state) {
-                    0 => 'Top Level',
-                    1 => 'Child',
-                    2 => 'Grandchild',
-                    default => $state,
-                }),
-
-            IconColumn::make('is_published')
-                ->label('Published')
-                ->boolean(),
-
-            IconColumn::make('show_in_nav')
-                ->label('In Nav')
-                ->boolean(),
-
-            TextColumn::make('updated_at')
-                ->label('Last Updated')
-                ->dateTime('d M Y')
-                ->sortable(),
-        ])
-        ->filters([
-            TernaryFilter::make('is_published')
-                ->label('Published'),
-
-            TernaryFilter::make('show_in_nav')
-                ->label('In Navigation'),
-        ])
-        ->actions([
-            EditAction::make(),
-            DeleteAction::make()
-                ->hidden(fn ($record) => $record->slug === 'home'),
-        ])
-        ->bulkActions([
-            BulkActionGroup::make([
-                DeleteBulkAction::make()
-                    ->action(function ($records) {
-                        $records->each(function ($record) {
-                            if ($record->slug !== 'home') {
-                                $record->delete();
-                            }
-                        });
+                TextColumn::make('depth')
+                    ->label('Level')
+                    ->formatStateUsing(fn ($state) => match ((int) $state) {
+                        0 => 'Top Level',
+                        1 => 'Child',
+                        2 => 'Grandchild',
+                        default => $state,
                     }),
-            ]),
-        ])
-        ->defaultSort('sort_order');
+
+                IconColumn::make('is_published')
+                    ->label('Published')
+                    ->boolean(),
+
+                IconColumn::make('show_in_nav')
+                    ->label('In Nav')
+                    ->boolean(),
+
+                TextColumn::make('updated_at')
+                    ->label('Last Updated')
+                    ->dateTime('d M Y')
+                    ->sortable(),
+            ])
+            ->filters([
+                TernaryFilter::make('is_published')
+                    ->label('Published'),
+
+                TernaryFilter::make('show_in_nav')
+                    ->label('In Navigation'),
+            ])
+            ->actions([
+                EditAction::make(),
+                DeleteAction::make()
+                    ->hidden(fn ($record) => $record->slug === 'home'),
+            ])
+            ->bulkActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make()
+                        ->action(function ($records) {
+                            $records->each(function ($record) {
+                                if ($record->slug !== 'home') {
+                                    $record->delete();
+                                }
+                            });
+                        }),
+                ]),
+            ])
+            ->defaultSort('sort_order');
     }
 
     public static function getPages(): array

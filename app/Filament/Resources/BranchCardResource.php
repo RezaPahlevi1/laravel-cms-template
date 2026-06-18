@@ -33,6 +33,8 @@ class BranchCardResource extends Resource
                 FileUpload::make('image_path')
                     ->label('Card Image')
                     ->image()
+                    ->disk('public')
+                    ->visibility('public')
                     ->directory('branch-cards')
                     ->nullable()
                     ->columnSpanFull(),
@@ -70,6 +72,7 @@ class BranchCardResource extends Resource
         return $table->columns([
             ImageColumn::make('image_path')
                 ->label('Image')
+                ->disk('public')
                 ->height(60),
 
             TextColumn::make('title')
