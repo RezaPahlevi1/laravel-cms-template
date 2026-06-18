@@ -68,4 +68,11 @@ class PageObserver
             }
         }
     }
+
+    public function deleting(Page $page): void
+    {
+        if ($page->slug === 'home') {
+            throw new \Exception('Home page cannot be deleted.');
+        }
+    }
 }

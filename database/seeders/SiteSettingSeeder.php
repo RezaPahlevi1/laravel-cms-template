@@ -17,7 +17,7 @@ class SiteSettingSeeder extends Seeder
 
             // Logo
             'logo_path' => '',
-            'logo_mode' => 'text', // image | text | both
+            'logo_mode' => 'text',
 
             // Footer
             'footer_about_text'      => '',
@@ -25,6 +25,7 @@ class SiteSettingSeeder extends Seeder
             'footer_contact_phone'   => '',
             'footer_contact_fax'     => '',
             'footer_contact_email'   => '',
+            'footer_projects_title'  => 'Recent Projects',
 
             // Home sections
             'what_we_do_heading' => 'What We Do',
@@ -32,9 +33,9 @@ class SiteSettingSeeder extends Seeder
             'gallery_per_page'   => '12',
 
             // Blog
-            'blog_enabled'   => 'true',
-            'blog_per_page'  => '9',
-            'blog_title'     => 'Blog',
+            'blog_enabled'  => 'true',
+            'blog_per_page' => '9',
+            'blog_title'    => 'Blog',
         ];
 
         foreach ($defaults as $key => $value) {

@@ -44,6 +44,7 @@ class GeneralSettingsPage extends Page implements HasForms
             'footer_contact_phone'   => SiteSetting::get('footer_contact_phone', ''),
             'footer_contact_fax'     => SiteSetting::get('footer_contact_fax', ''),
             'footer_contact_email'   => SiteSetting::get('footer_contact_email', ''),
+            'footer_projects_title'  => SiteSetting::get('footer_projects_title', 'Recent Projects'),
         ]);
     }
 
@@ -131,6 +132,12 @@ class GeneralSettingsPage extends Page implements HasForms
                         ->label('Email')
                         ->email()
                         ->nullable(),
+
+                    TextInput::make('footer_projects_title')
+                        ->label('Videos Section Title')
+                        ->helperText('Heading for the video section in footer.')
+                        ->nullable()
+                        ->columnSpanFull(),
                 ])->columns(2),
             ])
             ->statePath('data');
@@ -152,6 +159,7 @@ class GeneralSettingsPage extends Page implements HasForms
         Cache::forget('site_setting_site_name');
         Cache::forget('site_setting_logo_path');
         Cache::forget('site_setting_logo_mode');
+        Cache::forget('site_setting_footer_projects_title');
         Cache::forget('nav_tree');
 
         Notification::make()

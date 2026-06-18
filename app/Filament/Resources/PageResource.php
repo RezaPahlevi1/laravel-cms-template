@@ -51,7 +51,10 @@ class PageResource extends Resource
                     ->required()
                     ->unique(ignoreRecord: true)
                     ->disabled(fn ($record) => $record?->slug === 'home')
-                    ->helperText('Auto-generated from title. Cannot be changed for Home page.'),
+                    ->helperText(fn ($record) => $record?->slug === 'home'
+                        ? 'Home page slug cannot be changed. Content is managed via the Home Page menu.'
+                        : 'Auto-generated from title.'
+                    ),
 
                 Select::make('parent_id')
                     ->label('Parent Page')
@@ -103,16 +106,18 @@ class PageResource extends Resource
 
     public static function table(Table $table): Table
     {
-        return $table->columns([
-            TextColumn::make('title')
-                ->label('Title')
-                ->searchable()
-                ->sortable()
-                ->formatStateUsing(function ($state, $record) {
-                    // Indentasi visual berdasarkan depth
-                    $indent = str_repeat('— ', $record->depth);
-                    return $indent . $state;
-                }),
+        return $table
+            ->modifyQueryUsing(fn ($query) => $query->where('slug', '!=', 'home'))
+            ->columns([
+                TextColumn::make('title')
+                    ->label('Title')
+                    ->searchable()
+                    ->sortable()
+                    ->formatStateUsing(function ($state, $record) {
+                        // Indentasi visual berdasarkan depth
+                        $indent = str_repeat('— ', $record->depth);
+                        return $indent . $state;
+                    }),
 
             TextColumn::make('full_path')
                 ->label('URL Path')
@@ -155,7 +160,14 @@ class PageResource extends Resource
         ])
         ->bulkActions([
             BulkActionGroup::make([
-                DeleteBulkAction::make(),
+                DeleteBulkAction::make()
+                    ->action(function ($records) {
+                        $records->each(function ($record) {
+                            if ($record->slug !== 'home') {
+                                $record->delete();
+                            }
+                        });
+                    }),
             ]),
         ])
         ->defaultSort('sort_order');

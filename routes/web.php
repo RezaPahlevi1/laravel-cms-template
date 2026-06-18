@@ -39,5 +39,5 @@ Route::middleware('blog.enabled')->prefix('blog')->name('blog.')->group(function
 |--------------------------------------------------------------------------
 */
 Route::get('/{path}', [PageController::class, 'show'])
-    ->where('path', '(?!admin|livewire).*')
+    ->where('path', '(?!admin|livewire|home$).*')
     ->name('page.show');
