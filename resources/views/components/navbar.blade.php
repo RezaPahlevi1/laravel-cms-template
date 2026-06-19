@@ -1,8 +1,9 @@
 {{--
     Variabel tersedia via View Composer (AppServiceProvider):
-    $navTree      — Collection<Page> dengan relasi children.children
-    $isBlogEnabled — bool
-    $settings     — array ['site_name' => ..., 'logo_path' => ..., 'logo_mode' => ...]
+    $navTree        — Collection<Page> dengan relasi children.children
+    $isBlogEnabled  — bool
+    $isContactEnabled — bool
+    $settings       — array ['site_name' => ..., 'logo_path' => ..., 'logo_mode' => ...]
 --}}
 
 @use('Illuminate\Support\Facades\Storage')
@@ -175,6 +176,19 @@
                     </li>
                 @endif
 
+                {{-- Contact link — conditional --}}
+                @if($isContactEnabled)
+                    <li>
+                        <a
+                            href="/contact-us"
+                            class="px-3 py-2 text-sm font-medium rounded-md transition-colors
+                                   text-text-base hover:text-primary hover:bg-surface"
+                        >
+                            Contact Us
+                        </a>
+                    </li>
+                @endif
+
                 {{-- Search trigger --}}
                 <li class="ml-2">
                     <button
@@ -273,7 +287,7 @@
             @foreach($navTree as $page)
                 @if($page->children->isEmpty())
                     <li>
-                        <a href="/{{ $page->full_path }}"
+                        <a href="{{ $page->full_path }}"
                            class="block px-3 py-2 rounded-md text-sm font-medium text-text-base
                                   hover:bg-surface hover:text-primary transition-colors"
                            @click="mobileOpen = false">
@@ -300,7 +314,7 @@
                             @foreach($page->children as $child)
                                 @if($child->children->isEmpty())
                                     <li>
-                                        <a href="/{{ $child->full_path }}"
+                                        <a href="{{ $child->full_path }}"
                                            class="block px-3 py-2 rounded-md text-sm text-text-muted
                                                   hover:bg-surface hover:text-primary transition-colors"
                                            @click="mobileOpen = false">
@@ -325,7 +339,7 @@
                                         <ul x-show="openMobSub" class="mt-1 ml-4 space-y-1" style="display: none;">
                                             @foreach($child->children as $grandchild)
                                                 <li>
-                                                    <a href="/{{ $grandchild->full_path }}"
+                                                    <a href="{{ $grandchild->full_path }}"
                                                        class="block px-3 py-2 rounded-md text-xs
                                                               text-text-light hover:bg-surface
                                                               hover:text-primary transition-colors"
@@ -350,6 +364,17 @@
                               hover:bg-surface hover:text-primary transition-colors"
                        @click="mobileOpen = false">
                         {{ $settings['blog_title'] ?? 'Blog' }}
+                    </a>
+                </li>
+            @endif
+
+            @if($isContactEnabled)
+                <li>
+                    <a href="/contact-us"
+                       class="block px-3 py-2 rounded-md text-sm font-medium text-text-base
+                              hover:bg-surface hover:text-primary transition-colors"
+                       @click="mobileOpen = false">
+                        Contact Us
                     </a>
                 </li>
             @endif

@@ -36,6 +36,11 @@ class SiteSettingSeeder extends Seeder
             'blog_enabled'  => 'true',
             'blog_per_page' => '9',
             'blog_title'    => 'Blog',
+
+            // Contact
+            'contact_enabled'        => 'true',
+            'contact_form_recipient' => '',
+            'map_embed_url'          => '',
         ];
 
         foreach ($defaults as $key => $value) {

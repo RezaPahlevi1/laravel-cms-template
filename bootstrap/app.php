@@ -13,6 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
     $middleware->alias([
         'blog.enabled' => \App\Http\Middleware\BlogEnabled::class,
+        'contact.enabled' => \App\Http\Middleware\ContactEnabled::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

@@ -26,9 +26,10 @@ class AppServiceProvider extends ServiceProvider
             $settingService = app(SiteSettingService::class);
 
             $view->with([
-                'navTree'       => $navService->getNavTree(),
-                'isBlogEnabled' => $navService->isBlogEnabled(),
-                'settings'      => $settingService->all(),
+                'navTree'          => $navService->getNavTree(),
+                'isBlogEnabled'    => $navService->isBlogEnabled(),
+                'isContactEnabled' => $navService->isContactEnabled(),
+                'settings'         => $settingService->all(),
             ]);
         });
     }

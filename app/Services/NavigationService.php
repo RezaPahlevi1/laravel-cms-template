@@ -23,6 +23,15 @@ class NavigationService
 
     public function isBlogEnabled(): bool
     {
-        return SiteSetting::get('blog_enabled', 'true') === 'true';
+        return Cache::remember('site_setting_blog_enabled', 3600, fn () =>
+            SiteSetting::get('blog_enabled', 'true') === 'true'
+        );
+    }
+
+    public function isContactEnabled(): bool
+    {
+        return Cache::remember('site_setting_contact_enabled', 3600, fn () =>
+            SiteSetting::get('contact_enabled', 'true') === 'true'
+        );
     }
 }
