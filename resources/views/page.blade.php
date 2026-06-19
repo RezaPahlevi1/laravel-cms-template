@@ -36,16 +36,43 @@
         </div>
     @endif
 
-    {{-- Content --}}
+    {{-- Content + Sidebar --}}
     <div class="container-base py-8">
-        <div class="max-w-3xl">
-            @if($page->content)
-                <div class="prose-content">
-                    {!! $page->content !!}
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+
+            {{-- Kolom kiri: Content --}}
+            <div class="lg:col-span-2">
+                @if($page->content)
+                    <div class="prose-content">
+                        {!! $page->content !!}
+                    </div>
+                @else
+                    <p class="text-text-muted italic">Konten belum tersedia.</p>
+                @endif
+            </div>
+
+            {{-- Kolom kanan: Sidebar --}}
+            <div class="lg:col-span-1">
+                <div class="lg:sticky lg:top-24 space-y-6">
+
+                    {{-- Search --}}
+                    @include('components.search-bar')
+
+                    {{-- Company identity --}}
+                    <div class="bg-surface-alt rounded-lg border border-border p-5">
+                        <p class="text-base font-bold text-primary-dark">
+                            {{ $settings['site_name'] ?? config('app.name') }}
+                        </p>
+                        @if(!empty($settings['site_tagline']))
+                            <p class="mt-1.5 text-xs tracking-wide text-text-muted uppercase">
+                                {{ $settings['site_tagline'] }}
+                            </p>
+                        @endif
+                    </div>
+
                 </div>
-            @else
-                <p class="text-text-muted italic">Konten belum tersedia.</p>
-            @endif
+            </div>
+
         </div>
     </div>
 

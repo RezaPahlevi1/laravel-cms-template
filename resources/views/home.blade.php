@@ -7,19 +7,6 @@
     {{-- Hero Slider --}}
     @include('components.hero-slider')
 
-    {{-- Tagline Band --}}
-    @if(!empty($settings['site_tagline']))
-        <div class="bg-surface border-b border-border">
-            <div class="container-base py-4 flex items-center justify-center gap-4">
-                <span class="hidden sm:block flex-1 max-w-[60px] h-px bg-border"></span>
-                <p class="text-sm tracking-wider text-text-muted uppercase text-center">
-                    {{ $settings['site_tagline'] }}
-                </p>
-                <span class="hidden sm:block flex-1 max-w-[60px] h-px bg-border"></span>
-            </div>
-        </div>
-    @endif
-
     {{-- Branch Cards --}}
     @include('components.branch-cards')
 
