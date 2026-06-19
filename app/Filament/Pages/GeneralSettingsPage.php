@@ -4,6 +4,7 @@ namespace App\Filament\Pages;
 
 use App\Models\SiteSetting;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -15,6 +16,7 @@ use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\HtmlString;
 
 class GeneralSettingsPage extends Page implements HasForms
 {
@@ -40,11 +42,7 @@ class GeneralSettingsPage extends Page implements HasForms
             'what_we_do_body'      => SiteSetting::get('what_we_do_body', ''),
             'gallery_per_page'     => SiteSetting::get('gallery_per_page', '12'),
             'footer_about_text'    => SiteSetting::get('footer_about_text', ''),
-            'footer_contact_address' => SiteSetting::get('footer_contact_address', ''),
-            'footer_contact_phone'   => SiteSetting::get('footer_contact_phone', ''),
-            'footer_contact_fax'     => SiteSetting::get('footer_contact_fax', ''),
-            'footer_contact_email'   => SiteSetting::get('footer_contact_email', ''),
-            'footer_projects_title'  => SiteSetting::get('footer_projects_title', 'Recent Projects'),
+            'footer_projects_title' => SiteSetting::get('footer_projects_title', 'Recent Projects'),
         ]);
     }
 
@@ -83,6 +81,8 @@ class GeneralSettingsPage extends Page implements HasForms
                     FileUpload::make('logo_path')
                         ->label('Logo Image')
                         ->image()
+                        ->disk('public')
+                        ->visibility('public')
                         ->directory('logos')
                         ->nullable()
                         ->visible(fn ($get) => $get('logo_mode') === 'image')
@@ -116,27 +116,26 @@ class GeneralSettingsPage extends Page implements HasForms
                         ->rows(3)
                         ->nullable(),
 
-                    TextInput::make('footer_contact_address')
-                        ->label('Address')
-                        ->nullable(),
-
-                    TextInput::make('footer_contact_phone')
-                        ->label('Phone')
-                        ->nullable(),
-
-                    TextInput::make('footer_contact_fax')
-                        ->label('Fax')
-                        ->nullable(),
-
-                    TextInput::make('footer_contact_email')
-                        ->label('Email')
-                        ->email()
-                        ->nullable(),
-
                     TextInput::make('footer_projects_title')
                         ->label('Videos Section Title')
                         ->helperText('Heading for the video section in footer.')
-                        ->nullable()
+                        ->nullable(),
+
+                    Placeholder::make('contact_info_redirect')
+                        ->label('Contact Information')
+                        ->content(new HtmlString(
+                            '<div class="fi-section rounded-lg border border-gray-200 dark:border-gray-700 p-4 bg-gray-50 dark:bg-gray-800/50">' .
+                            '<p class="text-sm text-gray-600 dark:text-gray-400 mb-3">' .
+                            'Company address, phone, and email are shared between the footer and the Contact Us page. ' .
+                            'Manage them in one place to keep both consistent.' .
+                            '</p>' .
+                            '<a href="' . route('filament.admin.pages.contact-settings-page') . '" ' .
+                            'class="fi-btn inline-flex items-center justify-center gap-1.5 rounded-lg px-3 py-2 ' .
+                            'text-sm font-semibold bg-primary-600 text-white hover:bg-primary-500 transition-colors">' .
+                            'Go to Contact Settings →' .
+                            '</a>' .
+                            '</div>'
+                        ))
                         ->columnSpanFull(),
                 ])->columns(2),
             ])

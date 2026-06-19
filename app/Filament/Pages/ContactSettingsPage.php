@@ -29,9 +29,13 @@ class ContactSettingsPage extends Page implements HasForms
     public function mount(): void
     {
         $this->form->fill([
-            'contact_enabled'          => SiteSetting::get('contact_enabled', 'true') === 'true',
-            'contact_form_recipient'   => SiteSetting::get('contact_form_recipient', ''),
-            'map_embed_url'            => SiteSetting::get('map_embed_url', ''),
+            'footer_contact_address' => SiteSetting::get('footer_contact_address', ''),
+            'footer_contact_phone'   => SiteSetting::get('footer_contact_phone', ''),
+            'footer_contact_fax'     => SiteSetting::get('footer_contact_fax', ''),
+            'footer_contact_email'   => SiteSetting::get('footer_contact_email', ''),
+            'contact_enabled'        => SiteSetting::get('contact_enabled', 'true') === 'true',
+            'contact_form_recipient' => SiteSetting::get('contact_form_recipient', ''),
+            'map_embed_url'          => SiteSetting::get('map_embed_url', ''),
         ]);
     }
 
@@ -39,6 +43,27 @@ class ContactSettingsPage extends Page implements HasForms
     {
         return $form
             ->schema([
+                Section::make('Company Contact Information')
+                    ->description('This information is shared across the website footer and the Contact Us page.')
+                    ->schema([
+                        TextInput::make('footer_contact_address')
+                            ->label('Address')
+                            ->nullable(),
+
+                        TextInput::make('footer_contact_phone')
+                            ->label('Phone')
+                            ->nullable(),
+
+                        TextInput::make('footer_contact_fax')
+                            ->label('Fax')
+                            ->nullable(),
+
+                        TextInput::make('footer_contact_email')
+                            ->label('Email')
+                            ->email()
+                            ->nullable(),
+                    ])->columns(2),
+
                 Section::make('Contact Page')->schema([
                     Toggle::make('contact_enabled')
                         ->label('Enable Contact Page')
@@ -75,10 +100,18 @@ class ContactSettingsPage extends Page implements HasForms
     {
         $data = $this->form->getState();
 
+        SiteSetting::set('footer_contact_address', $data['footer_contact_address'] ?? '');
+        SiteSetting::set('footer_contact_phone',   $data['footer_contact_phone'] ?? '');
+        SiteSetting::set('footer_contact_fax',     $data['footer_contact_fax'] ?? '');
+        SiteSetting::set('footer_contact_email',   $data['footer_contact_email'] ?? '');
         SiteSetting::set('contact_enabled',        $data['contact_enabled'] ? 'true' : 'false');
         SiteSetting::set('contact_form_recipient', $data['contact_form_recipient'] ?? '');
         SiteSetting::set('map_embed_url',          $data['map_embed_url'] ?? '');
 
+        Cache::forget('site_setting_footer_contact_address');
+        Cache::forget('site_setting_footer_contact_phone');
+        Cache::forget('site_setting_footer_contact_fax');
+        Cache::forget('site_setting_footer_contact_email');
         Cache::forget('site_setting_contact_enabled');
         Cache::forget('site_setting_contact_form_recipient');
         Cache::forget('site_setting_map_embed_url');
