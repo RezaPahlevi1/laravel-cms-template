@@ -10,10 +10,11 @@ use Illuminate\Support\Facades\Storage;
 use Laravel\Scout\Searchable;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
+use App\Models\Concerns\SanitizesContent;
 
 class Page extends Model
 {
-    use HasSlug, Searchable;
+    use HasSlug, Searchable, SanitizesContent;
 
     protected $fillable = [
         'parent_id',

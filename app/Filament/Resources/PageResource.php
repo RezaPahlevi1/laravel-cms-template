@@ -88,7 +88,18 @@ class PageResource extends Resource
 
             Section::make('Content')->schema([
                 TiptapEditor::make('content')
-                    ->label('Page Content')
+                    ->label('Page Content') // 'Post Content' di PostResource
+                    ->profile('default')
+                    ->tools([
+                        'heading',
+                        'bold', 'italic', 'underline', 'strike',
+                        'superscript', 'subscript',
+                        'bullet-list', 'ordered-list',
+                        'blockquote', 'hr',
+                        'align-left', 'align-center', 'align-right',
+                        'link', 'media',
+                        'code', 'code-block',
+                    ])
                     ->nullable()
                     ->columnSpanFull(),
             ]),

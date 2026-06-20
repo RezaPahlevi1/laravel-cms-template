@@ -10,10 +10,11 @@ use Illuminate\Support\Facades\Storage;
 use Laravel\Scout\Searchable;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
+use App\Models\Concerns\SanitizesContent;
 
 class Post extends Model
 {
-    use HasSlug, Searchable;
+    use HasSlug, Searchable, SanitizesContent;
 
     protected $fillable = [
         'category_id',
