@@ -1,5 +1,10 @@
 @extends('layouts.app')
 
+@section('title', $post->seo_title)
+@section('meta_description', $post->seo_description)
+@section('og_image', $post->seo_image)
+@section('og_type', 'article')
+
 @section('title', $post->title . ' — ' . ($settings['site_name'] ?? config('app.name')))
 @section('meta_description', $post->excerpt ?? Str::limit(strip_tags($post->content ?? ''), 160))
 

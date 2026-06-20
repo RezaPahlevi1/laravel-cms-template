@@ -10,6 +10,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\BulkActionGroup;
@@ -102,6 +103,21 @@ class PageResource extends Resource
                     ])
                     ->nullable()
                     ->columnSpanFull(),
+            ]),
+
+            Section::make('SEO')->schema([
+                TextInput::make('meta_title')
+                    ->label('Meta Title')
+                    ->nullable()
+                    ->maxLength(255)
+                    ->helperText('Shown in browser tab & search results. Leave empty to use the Title above.'),
+
+                Textarea::make('meta_description')
+                    ->label('Meta Description')
+                    ->rows(2)
+                    ->nullable()
+                    ->maxLength(160)
+                    ->helperText('Shown in search results & link previews. Leave empty to use the global default.'),
             ]),
 
             Section::make('Visibility')->schema([

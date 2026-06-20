@@ -91,6 +91,21 @@ class PostResource extends Resource
                     ->columnSpanFull(),
             ]),
 
+            Section::make('SEO')->schema([
+                TextInput::make('meta_title')
+                    ->label('Meta Title')
+                    ->nullable()
+                    ->maxLength(255)
+                    ->helperText('Leave empty to use the Title above.'),
+
+                Textarea::make('meta_description')
+                    ->label('Meta Description')
+                    ->rows(2)
+                    ->nullable()
+                    ->maxLength(160)
+                    ->helperText('Leave empty to use Excerpt, then auto-generated from content.'),
+            ]),
+
             Section::make('Content')->schema([
                 TiptapEditor::make('content')
                     ->label('Page Content') // 'Post Content' di PostResource

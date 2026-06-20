@@ -11,6 +11,7 @@ use Laravel\Scout\Searchable;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use App\Models\Concerns\SanitizesContent;
+use App\Models\SiteSetting;
 
 class Page extends Model
 {
@@ -27,6 +28,8 @@ class Page extends Model
         'show_in_nav',
         'sort_order',
         'depth',
+        'meta_title',
+        'meta_description',
     ];
 
     protected $casts = [
@@ -95,5 +98,20 @@ class Page extends Model
     public function getHeroImageUrlAttribute(): ?string
     {
         return $this->hero_image_path ? Storage::url($this->hero_image_path) : null;
+    }
+
+    public function getSeoTitleAttribute(): string
+    {
+        return $this->meta_title ?: $this->title;
+    }
+
+    public function getSeoDescriptionAttribute(): string
+    {
+        return $this->meta_description ?: SiteSetting::get('meta_description', '');
+    }
+
+    public function getSeoImageAttribute(): ?string
+    {
+        return $this->hero_image_url;
     }
 }

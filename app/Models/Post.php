@@ -25,6 +25,8 @@ class Post extends Model
         'thumbnail_path',
         'is_published',
         'published_at',
+        'meta_title',
+        'meta_description',
     ];
 
     protected $casts = [
@@ -81,5 +83,22 @@ class Post extends Model
     public function getThumbnailUrlAttribute(): ?string
     {
         return $this->thumbnail_path ? Storage::url($this->thumbnail_path) : null;
+    }
+
+    public function getSeoTitleAttribute(): string
+    {
+        return $this->meta_title ?: $this->title;
+    }
+
+    public function getSeoDescriptionAttribute(): string
+    {
+        if ($this->meta_description) return $this->meta_description;
+        if ($this->excerpt) return $this->excerpt;
+        return \Illuminate\Support\Str::limit(strip_tags($this->content ?? ''), 160);
+    }
+
+    public function getSeoImageAttribute(): ?string
+    {
+        return $this->thumbnail_url;
     }
 }

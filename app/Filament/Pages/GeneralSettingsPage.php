@@ -43,6 +43,7 @@ class GeneralSettingsPage extends Page implements HasForms
             'gallery_per_page'     => SiteSetting::get('gallery_per_page', '12'),
             'footer_about_text'    => SiteSetting::get('footer_about_text', ''),
             'footer_projects_title' => SiteSetting::get('footer_projects_title', 'Recent Projects'),
+            'site_icon_path' => SiteSetting::get('site_icon_path', '') ?: null,
         ]);
     }
 
@@ -87,6 +88,15 @@ class GeneralSettingsPage extends Page implements HasForms
                         ->nullable()
                         ->visible(fn ($get) => $get('logo_mode') === 'image')
                         ->helperText('Recommended: PNG with transparent background, height 40–60px.'),
+
+                    FileUpload::make('site_icon_path')
+                        ->label('Site Icon (Favicon)')
+                        ->image()
+                        ->disk('public')
+                        ->visibility('public')
+                        ->directory('site-icons')
+                        ->nullable()
+                        ->helperText('Square image recommended, e.g. 512×512px. Falls back to Logo Image above if left empty.'),
                 ])->columns(1),
 
                 Section::make('Home Page — What We Do')->schema([
@@ -160,6 +170,7 @@ class GeneralSettingsPage extends Page implements HasForms
         Cache::forget('site_setting_logo_mode');
         Cache::forget('site_setting_footer_projects_title');
         Cache::forget('nav_tree');
+        Cache::forget('site_setting_site_icon_path');
 
         Notification::make()
             ->title('Settings saved successfully.')

@@ -5,12 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    @php
+        $defaultOgImage = !empty($settings['logo_path'])
+            ? \Illuminate\Support\Facades\Storage::url($settings['logo_path'])
+            : '';
+        $faviconPath = $settings['site_icon_path'] ?? ($settings['logo_path'] ?? null);
+    @endphp
+
     <title>@yield('title', $settings['site_name'] ?? config('app.name'))</title>
     <meta name="description" content="@yield('meta_description', $settings['meta_description'] ?? '')">
     <meta property="og:title"       content="@yield('title', $settings['site_name'] ?? config('app.name'))">
     <meta property="og:description" content="@yield('meta_description', $settings['meta_description'] ?? '')">
-    <meta property="og:type"        content="website">
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <meta property="og:type"        content="@yield('og_type', 'website')">
+    <meta property="og:url"         content="{{ url()->current() }}">
+    <meta property="og:image"       content="@yield('og_image', $defaultOgImage)">
+
+    @if($faviconPath)
+        <link rel="icon" type="image/png" href="{{ \Illuminate\Support\Facades\Storage::url($faviconPath) }}">
+    @else
+        <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    @endif
 
     {{-- Google Fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
