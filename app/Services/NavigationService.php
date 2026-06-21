@@ -11,7 +11,7 @@ class NavigationService
 {
     public function getNavTree(): Collection
     {
-        return Cache::remember('nav_tree', 3600, function () {
+        return Cache::remember('nav_tree', config('cms.cache.nav_ttl'), function () {
             return Page::with('children.children')
                 ->whereNull('parent_id')
                 ->where('is_published', true)
@@ -23,14 +23,14 @@ class NavigationService
 
     public function isBlogEnabled(): bool
     {
-        return Cache::remember('site_setting_blog_enabled', 3600, fn () =>
+        return Cache::remember('site_setting_blog_enabled', config('cms.cache.settings_ttl'), fn () =>
             SiteSetting::get('blog_enabled', 'true') === 'true'
         );
     }
 
     public function isContactEnabled(): bool
     {
-        return Cache::remember('site_setting_contact_enabled', 3600, fn () =>
+        return Cache::remember('site_setting_contact_enabled', config('cms.cache.settings_ttl'), fn () =>
             SiteSetting::get('contact_enabled', 'true') === 'true'
         );
     }

@@ -13,7 +13,7 @@ class SearchController extends Controller
         $query   = $request->get('q', '');
         $results = collect();
 
-        if (strlen($query) >= 2) {
+        if (strlen($query) >= config('cms.search.min_query_length')) {
             $pages = Page::search($query)->get()
                 ->where('is_published', true)
                 ->map(fn($p) => [
@@ -42,7 +42,7 @@ class SearchController extends Controller
     {
         $query = $request->get('q', '');
 
-        if (strlen($query) < 2) {
+        if (strlen($query) < config('cms.search.min_query_length')) {
             return response()->json(['results' => []]);
         }
 
