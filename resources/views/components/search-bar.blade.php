@@ -10,7 +10,7 @@
                 x-model.debounce.400ms="query"
                 @input="search()"
                 type="text"
-                placeholder="Cari halaman atau artikel..."
+                placeholder="Find pages or articles..."
                 class="w-full pl-10 pr-4 py-2 text-sm bg-surface border border-border
                        rounded-lg text-text-base placeholder-text-light
                        focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary
@@ -30,7 +30,7 @@
                    hover:bg-primary-light rounded-lg transition-colors"
             style="display: none;"
         >
-            Lihat semua
+            See all
         </a>
     </div>
 
@@ -43,7 +43,7 @@
     >
         {{-- Loading state --}}
         <div x-show="loading" class="px-4 py-3 text-sm text-text-muted">
-            Mencari...
+            Searching...
         </div>
 
         {{-- Results --}}
@@ -78,7 +78,7 @@
             x-show="!loading && results.length === 0 && query.length >= 2"
             class="px-4 py-3 text-sm text-text-muted"
         >
-            Tidak ada hasil untuk "<span x-text="query"></span>"
+            No results for... "<span x-text="query"></span>"
         </div>
     </div>
 </div>

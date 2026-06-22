@@ -95,7 +95,7 @@
                                 x-transition:leave-start="opacity-100 translate-y-0"
                                 x-transition:leave-end="opacity-0 translate-y-1"
                                 class="absolute top-full left-0 mt-1 w-52 bg-white rounded-lg
-                                       shadow-lg border border-border overflow-hidden"
+                                       shadow-lg border border-border"
                                 style="display: none;"
                             >
                                 @foreach($page->children as $child)

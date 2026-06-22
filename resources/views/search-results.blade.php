@@ -7,11 +7,11 @@
     <div class="bg-surface-alt border-b border-border">
         <div class="container-base py-6">
             <h1 class="text-xl font-bold text-primary-dark">
-                Hasil Pencarian
+                Search Results
             </h1>
             @if($query)
                 <p class="mt-1 text-sm text-text-muted">
-                    {{ $results->count() }} hasil untuk
+                    {{ $results->count() }} results for
                     <span class="font-medium text-text-base">"{{ $query }}"</span>
                 </p>
             @endif
