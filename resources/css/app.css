@@ -29,9 +29,6 @@
     --color-text-light: #94a3b8;
 }
 
-/* Google Fonts — Inter */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
-
 /* Prose defaults untuk konten TipTap */
 @layer base {
     body {
