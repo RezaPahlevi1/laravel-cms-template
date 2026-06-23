@@ -49,14 +49,7 @@
                             }"
                         >
                             <div class="flex items-center justify-between mb-4">
-                                <h2 class="text-lg font-bold text-primary-dark">Galeri</h2>
-                                @if($galleryImages->hasPages())
-                                    <a href="#galeri"
-                                       class="text-xs text-secondary hover:text-secondary-light
-                                              transition-colors font-medium">
-                                        Lihat semua →
-                                    </a>
-                                @endif
+                                <h2 class="text-lg font-bold text-primary-dark">Gallery</h2>
                             </div>
 
                             @include('components.gallery-grid')

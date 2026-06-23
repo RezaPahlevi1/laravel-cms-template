@@ -101,6 +101,29 @@ return [
         'custom_elements' => [
             ['u', 'Inline', 'Inline', 'Common'],
         ],
+        'cms_content' => [
+            'HTML.Doctype' => 'HTML 4.01 Transitional',
+            'HTML.Allowed' => implode(',', [
+                'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+                'p[style]',
+                'strong', 'em', 's', 'u', 'sup', 'sub',
+                'ul', 'ol', 'li',
+                'blockquote[style]', 'hr', 'br',
+                'a[href|title|target|rel]',
+                'img[src|alt|title|width|height]',
+                'code', 'pre[class]', 'code[class]',
+            ]),
+            'CSS.AllowedProperties' => 'text-align',
+            'Attr.AllowedClasses' => implode(',', [
+                'hljs',
+                'language-php', 'language-javascript', 'language-js',
+                'language-html', 'language-css', 'language-json',
+                'language-bash', 'language-sql', 'language-python',
+                'language-plaintext',
+            ]),
+            'AutoFormat.AutoParagraph' => false,
+            'AutoFormat.RemoveEmpty' => true,
+        ],
     ],
 
 ];
